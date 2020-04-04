@@ -1,4 +1,7 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:pando/view/TodoItem.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -9,12 +12,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  int _counter = 1;
+  List entries = ['One', 'Two'];
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    setState(() => _counter++);
   }
 
   @override
@@ -24,19 +26,16 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       backgroundColor: Colors.black,
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'times clicked:',
-              style: Theme.of(context).textTheme.headline4,
+      body: ResponsiveGridRow(
+        children: List.generate(
+          3,
+          (i) => ResponsiveGridCol(
+            sm: 12,
+            md: 6,
+            child: TodoItem(
+              text: faker.lorem.sentence(),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-          ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -45,7 +44,6 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
