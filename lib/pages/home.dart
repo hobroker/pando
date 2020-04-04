@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pando/view/CenterView.dart';
+import 'package:pando/view/DefaultListItem.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -9,12 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  int _counter = 1;
+  List entries = ['One', 'Two'];
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    setState(() => _counter++);
   }
 
   @override
@@ -25,18 +26,16 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.black,
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'times clicked:',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline3,
-            ),
-          ],
+        child: CenterView(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(0),
+            itemCount: _counter,
+            itemBuilder: (BuildContext context, int index) {
+              return DefaultListItem(child: Text('Entry $index'));
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
