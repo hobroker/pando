@@ -1,6 +1,7 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:pando/view/CenterView.dart';
-import 'package:pando/view/DefaultListItem.dart';
+import 'package:pando/view/TodoItem.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -25,16 +26,15 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       backgroundColor: Colors.black,
-      body: Center(
-        child: CenterView(
-          child: ListView.separated(
-            padding: const EdgeInsets.all(0),
-            itemCount: _counter,
-            itemBuilder: (BuildContext context, int index) {
-              return DefaultListItem(child: Text('Entry $index'));
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
+      body: ResponsiveGridRow(
+        children: List.generate(
+          3,
+          (i) => ResponsiveGridCol(
+            sm: 12,
+            md: 6,
+            child: TodoItem(
+              text: faker.lorem.sentence(),
+            ),
           ),
         ),
       ),
@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
